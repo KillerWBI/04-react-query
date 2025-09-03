@@ -1,30 +1,26 @@
-import React from 'react';
-import toast, { Toaster } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import css from './SearchBar.module.css';
 
 interface SearchBarProps {
-  onSearch: (query: string) => void;
+  onSubmit: (query: string) => void;
 }
 
-export function SearchBar({ onSearch }: SearchBarProps) {
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // предотвращаем перезагрузку страницы
-
-    // Получаем данные формы
-    const formData = new FormData(event.currentTarget);
+export function SearchBar({ onSubmit }: SearchBarProps) {
+  // Функция теперь принимает FormData, а не event
+  const handleAction = (formData: FormData) => {
     const query = (formData.get('query') as string)?.trim();
 
-    if (query === '') {
-      toast.error("Any types of text are not allowed");
+    if (!query) {
+      toast.error('Please enter your search query.');
       return;
     }
-    onSearch(query);
+
+    onSubmit(query);
   };
 
   return (
     <>
-      <Toaster /> {/* показываем тосты */}
+
       <header className={css.header}>
         <div className={css.container}>
           <a
@@ -35,7 +31,8 @@ export function SearchBar({ onSearch }: SearchBarProps) {
           >
             Powered by TMDB
           </a>
-          <form className={css.form} onSubmit={handleSubmit}>
+
+          <form className={css.form} action={handleAction}>
             <input
               className={css.input}
               type="text"

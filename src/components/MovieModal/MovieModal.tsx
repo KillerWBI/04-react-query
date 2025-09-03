@@ -4,7 +4,7 @@ import { getImageUrl } from '../../services/movieService';
 import type { Movie } from '../../types/movie';
 import css from './MovieModal.module.css';
 interface MovieModalProps {
-    movie: Movie | null;
+    movie: Movie;
     onClose: () => void;
 }
 
@@ -34,7 +34,6 @@ const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
 	}, [onClose]);
 
 
-if (!movie) return null;
     return createPortal(
         <div className={css.backdrop} role="dialog" aria-modal="true" onClick={handleBackdropClick}>
   <div className={css.modal}>
@@ -42,8 +41,8 @@ if (!movie) return null;
       &times;
     </button>
     <img
-      src={getImageUrl(movie.poster_path)}
-      alt="movie_title"
+      src={getImageUrl(movie.backdrop_path || movie.poster_path)}
+      alt={movie.title}
       className={css.image}
     />
     <div className={css.content}>
