@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import ReactPaginate from 'react-paginate';
 import { fetchMovies } from '../../services/movieService';
@@ -21,7 +21,7 @@ export default function App() {
     enabled: !!query,
     placeholderData: { results:  [] as Movie[], total_pages: 0, total_results: 0 }
   });
-const movies = data?.results ?? [];
+const movies = useMemo(() => data?.results ?? [], [data?.results]);
 const totalPages = data?.total_pages ?? 0;
 
 useEffect(() => {
