@@ -65,7 +65,7 @@ const closeModal = () => {
       containerClassName={css.pagination}
       activeClassName={css.active}
       nextLabel="→"
-      previousLabel="←"
+      previousLabel="←" 
 />}
 
         {modalMovie && <MovieModal movie={modalMovie} onClose={closeModal}/>}
